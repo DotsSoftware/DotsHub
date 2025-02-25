@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOTS - App Links Dashboard</title>
+    <style>
+        :root {
+            --primary-blue: #2256B2;
+            --secondary-blue: #1e4aa0;
+            --light-blue: #e7edf7;
+            --accent-pink: #ff9bbd;
+            --accent-purple: #a185e7;
+            --dark-color: #222222;
+            --light-color: #ffffff;
+            --gray-color: #f8f8f8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: var(--gray-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        
+        .logo-container {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: white;
+            padding: 5px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-right: 1rem;
+        }
+        
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .site-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .site-description {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            color: var(--primary-blue);
+            font-size: 1.4rem;
+            margin-bottom: 1.2rem;
+            text-align: center;
+            font-weight: 600;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--primary-blue);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+        
+        .links-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .link-card {
+            background-color: var(--light-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+        }
+        
+        .link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--primary-blue);
+        }
+        
+        .link-card.web::before {
+            background-color: var(--primary-blue);
+        }
+        
+        .link-card.android::before {
+            background-color: #3DDC84; /* Android green */
+        }
+        
+        .link-card.ios::before {
+            background-color: #007AFF; /* iOS blue */
+        }
+        
+        .link-card.amazon::before {
+            background-color: #FF9900; /* Amazon orange */
+        }
+        
+        .link-content {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .link-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background-color: var(--light-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .link-icon.web {
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+        }
+        
+        .link-icon.android {
+            background-color: #e8f5e9;
+            color: #3DDC84;
+        }
+        
+        .link-icon.ios {
+            background-color: #e3f2fd;
+            color: #007AFF;
+        }
+        
+        .link-icon.amazon {
+            background-color: #fff8e1;
+            color: #FF9900;
+        }
+        
+        .link-details {
+            flex-grow: 1;
+        }
+        
+        .link-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: var(--dark-color);
+        }
+        
+        .link-description {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .link-arrow {
+            margin-left: 0.5rem;
+            font-size: 1.1rem;
+            color: #999;
+        }
+        
+        .store-badge {
+            font-size: 0.8rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            background-color: #f0f0f0;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+        
+        .store-badge.google {
+            background-color: #e8f5e9;
+            color: #0b8043;
+        }
+        
+        .store-badge.apple {
+            background-color: #e3f2fd;
+            color: #0064d2;
+        }
+        
+        .store-badge.amazon {
+            background-color: #fff8e1;
+            color: #ff6900;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            color: #777;
+            font-size: 0.9rem;
+            border-top: 1px solid #eaeaea;
+        }
+        
+        @media (max-width: 768px) {
+            .links-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .site-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0OCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMjI1NkIyIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMzAgMzAgQzQwIDIwLCA2MCAyMCwgNzAgMzAgQzgwIDQwLCA4MCA2MCwgNzAgNzAgQzYwIDgwLCA0MCA4MCwgMzAgNzAgQzIwIDYwLCAyMCA0MCwgMzAgMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIyNTZCMiIgc3Ryb2tlLXdpZHRoPSIyIi8+PGNpcmNsZSBjeD0iMzUiIGN5PSI0MCIgcj0iNSIgZmlsbD0iIzIyNTZCMiIvPjxjaXJjbGUgY3g9IjY1IiBjeT0iNDAiIHI9IjUiIGZpbGw9IiMyMjU2QjIiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjY1IiByPSI1IiBmaWxsPSIjMjI1NkIyIi8+PC9zdmc+" alt="DOTS Logo">
+                </div>
+            </div>
+            <h1 class="site-title">DOTS Applications</h1>
+            <p class="site-description">Access all DOTS platforms and applications from one convenient dashboard</p>
+        </header>
+        
+        <div class="section">
+            <h2 class="section-title">Web Applications</h2>
+            <div class="links-container">
+                <a href="#" class="link-card web">
+                    <div class="link-content">
+                        <div class="link-icon web">💻</div>
+                        <div class="link-details">
+                            <h3 class="link-title">Main Web Application</h3>
+                            <p class="link-description">Access the full DOTS platform via web browser</p>
+                        </div>
+                        <div class="link-arrow">→</div>
+                    </div>
+                </a>
+                
+                <a href="#" class="link-card web">
+                    <div class="link-content">
+                        <div class="link-icon web">⚙️</div>
+                        <div class="link-details">
+                            <h3 class="link-title">Administration Portal</h3>
+                            <p class="link-description">Manage settings, users, and permissions</p>
+                        </div>
+                        <div class="link-arrow">→</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Mobile Applications</h2>
+            <div class="links-container">
+                <!-- Google Play Store Apps -->
+                <a href="#" class="link-card android">
+                    <div class="link-content">
+                        <div class="link-icon android">📱</div>
+                        <div class="link-details">
+                            <h3 class="link-title">DOTS Mobile</h3>
+                            <p class="link-description">Main mobile application for Android devices</p>
+                            <span class="store-badge google">Google Play</span>
+                        </div>
+                        <div class="link-arrow">→</div>
+                    </div>
+                </a>
+                
+                <a href="#" class="link-card android">
+                    <div class="link-content">
+                        <div class="link-icon android">📊</div>
+                        <div class="link-details">
+                            <h3 class="link-title">DOTS Analytics</h3>
+                            <p class="link-description">Track metrics and analytics on Android</p>
+                            <span class="store-badge google">Google Play</span>
+                        </div>
+                        <div class="link-arrow">→</div>
+                    </div>
+                </a>
+                
+                <!-- Apple App Store Apps -->
+                <a href="#" class="link-card ios">
+                    <div class="link-content">
+                        <div class="link-icon ios">📱</div>
+                        <div class="link-details">
+                            <h3 class="link-title">DOTS Mobile</h3>
+                            <p class="link-description">Main mobile application for iOS devices</p>
+                            <span class="store-badge apple">App Store</span>
+                        </div>
+                        <div class="link-arrow">→</div>
+                    </div>
+                </a>
+                
+                <a href="#" class="link-card ios">
+                    <div class="link-content">
+                        <div class="link-icon ios">📊</div>
+                        <div class="link-details">
+                            <h3 class="link-title">DOTS Analytics</h3>
+                            <p class="link-description">Track metrics and analytics on iOS</p>
+                            <span class="store-badge apple">App Store</span>
+                        </div>
+                        <div class="link-arrow">→</div>
+                    </div>
+                </a>
+                
+                <!-- Amazon App Store Apps -->
+                <a href="#" class="link-card amazon">
+                    <div class="link-content">
+                        <div class="link-icon amazon">📱</div>
+                        <div class="link-details">
+                            <h3 class="link-title">DOTS Mobile</h3>
+                            <p class="link-description">Main mobile application for Amazon devices</p>
+                            <span class="store-badge amazon">Amazon Appstore</span>
+                        </div>
+                        <div class="link-arrow">→</div>
+                    </div>
+                </a>
+                
+                <a href="#" class="link-card amazon">
+                    <div class="link-content">
+                        <div class="link-icon amazon">📊</div>
+                        <div class="link-details">
+                            <h3 class="link-title">DOTS Analytics</h3>
+                            <p class="link-description">Track metrics and analytics on Amazon devices</p>
+                            <span class="store-badge amazon">Amazon Appstore</span>
+                        </div>
+                        <div class="link-arrow">→</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 DOTS Consultants. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
